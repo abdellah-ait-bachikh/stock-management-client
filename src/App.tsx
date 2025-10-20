@@ -1,11 +1,9 @@
-import { Button } from "@heroui/react";
+
+import Layout from "./Layout";
 
 const App = () => {
   return (
-    <div className="h-screen">
-      <div className="underline   flex items-center justify-center">App</div>
-      <Button>test</Button>
-    </div>
+   <Layout/>
   );
 };
 
