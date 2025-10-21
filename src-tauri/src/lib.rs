@@ -1,9 +1,9 @@
+#[cfg(windows)]
+use std::os::windows::process::CommandExt;
 use std::path::PathBuf;
 use std::process::Command;
 use std::sync::{Arc, Mutex};
-use tauri::{WindowEvent, Manager};
-#[cfg(windows)]
-use std::os::windows::process::CommandExt; 
+use tauri::{Manager, WindowEvent};
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -18,8 +18,11 @@ pub fn run() {
                     .to_path_buf();
 
                 let node_path = exe_dir.join("node").join("node.exe");
-                let server_path = exe_dir.join("stock-management-server").join("dist").join("index.js");
- // Start the Node.js server hidden on Windows
+                let server_path = exe_dir
+                    .join("stock-management-server")
+                    .join("dist")
+                    .join("index.js");
+                // Start the Node.js server hidden on Windows
                 let mut cmd = Command::new(node_path);
                 cmd.arg(server_path);
 
@@ -28,9 +31,7 @@ pub fn run() {
                     cmd.creation_flags(0x08000000);
                 }
 
-                let child = cmd
-                    .spawn()
-                    .expect("Failed to start Node.js server");
+                let child = cmd.spawn().expect("Failed to start Node.js server");
 
                 let child_arc = Arc::new(Mutex::new(Some(child)));
                 let child_clone = Arc::clone(&child_arc);

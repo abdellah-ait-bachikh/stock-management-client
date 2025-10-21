@@ -1,29 +1,29 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatchType, RootStateType } from "../redux/store";
-import { Button } from "@heroui/react";
 import { appActions } from "../redux/slices/appSLice";
-import { IoCloseOutline } from "react-icons/io5";
-import { PiListLight } from "react-icons/pi";
+import { Button } from "@heroui/react";
+import { IoCloseOutline, } from "react-icons/io5";
 
-const ToggleAside = () => {
-  const dispatch = useDispatch<AppDispatchType>();
+const CloseAside = () => {
   const { isAsideOpen } = useSelector((state: RootStateType) => state.app);
-  const handelAsideToggle = () => {
+  const dispatch = useDispatch<AppDispatchType>();
+  const handelCloseAside = () => {
     dispatch(appActions.setAsideOpen(!isAsideOpen));
   };
   return (
     <div>
       <Button
+        className="md:hidden"
         isIconOnly
         variant="light"
         radius="full"
-        color={isAsideOpen ? "danger" : "primary"}
-        onPress={handelAsideToggle}
+        color={ "danger" }
+        onPress={handelCloseAside}
       >
-        {isAsideOpen ? <IoCloseOutline size={28} /> : <PiListLight size={28} />}
+       <IoCloseOutline size={28}  /> 
       </Button>
     </div>
   );
 };
 
-export default ToggleAside;
+export default CloseAside;

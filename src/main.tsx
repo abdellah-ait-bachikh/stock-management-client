@@ -5,11 +5,14 @@ import App from "./App.tsx";
 import { HeroUIProvider } from "@heroui/react";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.ts";
+import { BrowserRouter } from "react-router-dom";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
       <HeroUIProvider>
+        <BrowserRouter>
         <App />
+        </BrowserRouter>
       </HeroUIProvider>
     </Provider>
   </StrictMode>

@@ -1,7 +1,7 @@
 import ToggleAside from "./ToggleAside";
 
 const Header = () => {
-  return <div className="bg-green-500">
+  return <div className="bg-white p-4">
     <ToggleAside/>
   </div>;
 };
