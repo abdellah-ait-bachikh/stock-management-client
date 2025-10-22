@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Home = () => {
   const handlePrint = () => {
     try {
@@ -21,8 +23,7 @@ const Home = () => {
       >
         Print "Hello World"
       </button>
-    
-      
+
       <div>bdd</div>
       <div>bdd</div>
       <div>bdd</div>

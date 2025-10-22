@@ -9,7 +9,6 @@ import {
 } from "@heroui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { appActions } from "../redux/slices/appSLice";
-import { BsPersonExclamation } from "react-icons/bs";
 
 import { TbMenuDeep } from "react-icons/tb";
 import type { RootStateType } from "../redux/store";
@@ -70,7 +69,7 @@ const Header = () => {
                   <MdOutlineAdminPanelSettings color="white" />
                 }
               >
-                <Avatar />
+                <Avatar className="cursor-pointer" />
               </Badge>
             </div>
           </PopoverTrigger>
