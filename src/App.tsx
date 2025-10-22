@@ -26,9 +26,9 @@ const App = () => {
         </>
       ) : (
         <Route path="/" element={<AuthLayout />}>
-          <Route index element={<Navigate to="/auth/login" />} />
-          <Route index path="auth/login" element={<Login />} />
-          <Route path="auth/register" element={<Register />} />
+          <Route index element={<Navigate to="/auth/register" />} />
+          <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/register" element={<Register />} />
           <Route path="/*" element={<h1>note found</h1>} />
         </Route>
       )}
