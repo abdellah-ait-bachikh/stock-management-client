@@ -4,14 +4,6 @@
 /* Note: You may need to change the path to fit your project structure */
 @source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 @custom-variant dark (&:is(.dark *));
-@font-face {
-  font-family: "Fredoka";
-  src: url("assets/fonts/fredoka/Fredoka-VariableFont_wdth\,wght.ttf")
-    format("truetype");
-  font-weight: 100 900; /* variable weights range */
-  font-stretch: 75% 125%; /* variable width range */
-  font-style: normal;
-}
 
 :root {
   --poppins: "Poppins", sans-serif;
@@ -30,26 +22,31 @@
   --light-orange: #ffe0d3;
 }
 
-body,
-html {
-  /* padding: 0%;
-  margin: 0%; */
+html,
+body {
+  padding: 0%;
+  margin: 0%;
   box-sizing: border-box;
-  font-family: "Fredoka";
+  font-family: "Roboto Mono", monospace;
+  @apply overflow-x-clip overflow-y-hidden dark:text-white text-black;
 }
 body,
 div#root {
   height: 100vh;
 }
-div#modile-aside a.active {
-  @apply underline underline-offset-4  ;
-  /* @apply bg-(--blue)/50 text-white  transition-background delay-100 ; */
-  
-  
+
+/* div.logo-label{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+} */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
-div#desktop-aside a.active {
-  /* @apply underline ; */
-  @apply bg-(--blue)/50   ;
-  
-  
+
+#root {
+  height: 100%;
 }
