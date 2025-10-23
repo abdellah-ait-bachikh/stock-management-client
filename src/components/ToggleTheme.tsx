@@ -27,7 +27,6 @@ const ToggleTheme = () => {
     }
     localStorage.setItem("theme", newTheme);
   };
-  console.log(theme);
   return (
     <Button
       isIconOnly
@@ -35,7 +34,6 @@ const ToggleTheme = () => {
       color="default"
       onPress={handelToggleTheme}
       radius="lg"
-      
     >
       {theme === "dark" ? <GoSun size={24} /> : <IoMoonOutline size={24} />}
     </Button>

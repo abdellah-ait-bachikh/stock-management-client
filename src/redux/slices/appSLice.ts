@@ -1,8 +1,8 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { appInitialStateType } from "../../lib/types";
+import type { AppInitialStateType } from "../../lib/types";
 const initialTheme = (localStorage.getItem("theme") as "light" | "dark") || "light";
 
-const initialState: appInitialStateType = {
+const initialState: AppInitialStateType = {
   isAsideOpen: false,
   theme: initialTheme,
 };
@@ -13,11 +13,11 @@ const appSLice = createSlice({
   reducers: {
     setAsideOpen(
       state,
-      action: PayloadAction<appInitialStateType["isAsideOpen"]>
+      action: PayloadAction<AppInitialStateType["isAsideOpen"]>
     ) {
       state.isAsideOpen = action.payload;
     },
-    setTheme(state, action: PayloadAction<appInitialStateType["theme"]>) {
+    setTheme(state, action: PayloadAction<AppInitialStateType["theme"]>) {
       state.theme = action.payload;
     },
   },
