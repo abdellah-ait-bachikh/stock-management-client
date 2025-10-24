@@ -8,6 +8,7 @@ import type {
 import { replaceEmptyStringsWithUndefined, request } from "../../lib/utils";
 import type { AppDispatchType } from "../store";
 import { authActions } from "../slices/authSlice";
+import { removeUser , saveUser } from "../../lib/tauriStore";
 
 export const registerUser =
   (
@@ -89,12 +90,15 @@ export const LogInUser =
     try {
       const res = await request.post(`/api/auth/login`, formData);
       if (res.status === 201) {
-        addToast({
+       
+        dispatch(authActions.setLoginUser(res.data.user));
+        // localStorage.setItem("currentUser", JSON.stringify(res.data.user)); 
+         await saveUser(res.data.user);
+         addToast({
           title: "Login Successful",
           description: res.data.message,
           color: "success",
         });
-        dispatch(authActions.setLoginUser(res.data.user));
         if (cb) {
           cb();
         }
@@ -178,44 +182,52 @@ export const getCurrectUSer =
     }
   };
 
-export const logOutUser = (setModaleOpen:(value:boolean)=>void) => async (dispatch: AppDispatchType) => {
+export const logOutUser =
+  (setModaleOpen: (value: boolean) => void) =>
+  async (dispatch: AppDispatchType) => {
+    try {
+      // Attempt to call backend logout
+      await request.post("/api/auth/logout", {}, { withCredentials: true });
 
-  try {
-    // Attempt to call backend logout
-    await request.post("/api/auth/logout", {}, { withCredentials: true });
-
-    // Clear user in Redux
-    dispatch(authActions.setLoginUser(null));
-    localStorage.removeItem("currentUser");
-
-    addToast({
-      title: "Logged Out",
-      description: "You have been successfully logged out.",
-      color: "primary",
-    });
-  } catch (error: any) {
-    if (!error.response) {
-      // Network error
-      addToast({
-        title: "Network Error",
-        description: "Please check your internet connection and try again.",
-        color: "danger",
-      });
-    } else {
-      // Server returned an error
-      addToast({
-        title: "Logout Error",
-        description: error.response.data?.message || "Failed to log out.",
-        color: "danger",
-      });
-
-      // Still clear local user if you want, or keep it
+      // Clear user in Redux
       dispatch(authActions.setLoginUser(null));
-      localStorage.removeItem("currentUser");
-    }
 
-    console.error("Logout error:", error);
-  }finally{
-    setModaleOpen(false)
-  }
-};
+      // Remove from Tauri store (important!)
+      await removeUser ();
+
+      // If you were using localStorage anywhere, clear it too:
+      localStorage.removeItem("currentUser");
+
+      addToast({
+        title: "Logged Out",
+        description: "You have been successfully logged out.",
+        color: "primary",
+      });
+    } catch (error: any) {
+      if (!error.response) {
+        // Network error
+        addToast({
+          title: "Network Error",
+          description: "Please check your internet connection and try again.",
+          color: "danger",
+        });
+      } else {
+        // Server returned an error
+        addToast({
+          title: "Logout Error",
+          description: error.response.data?.message || "Failed to log out.",
+          color: "danger",
+        });
+
+        // Still clear local user in case server-side session is invalid
+        dispatch(authActions.setLoginUser(null));
+        await removeUser ();
+        localStorage.removeItem("currentUser");
+      }
+
+      console.error("Logout error:", error);
+    } finally {
+      setModaleOpen(false);
+    }
+  };
+

@@ -13,6 +13,7 @@ import { registerUser } from "../../redux/api/aut.api";
 import { useDispatch } from "react-redux";
 import type { AppDispatchType } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
+import { FaEye } from "react-icons/fa";
 
 const Register = () => {
   const [validationErrors, setValidationErrors] =
@@ -29,6 +30,8 @@ const Register = () => {
     email: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [inputType, setInputType] = useState("password");
+
   const dispatch = useDispatch<AppDispatchType>();
   const navigate = useNavigate();
   const handelChange = (field: RegisterUserFieldsType, value: string) => {
@@ -112,6 +115,23 @@ const Register = () => {
                 errorMessages={validationErrors["password"]}
               />
             }
+            type={inputType}
+            endContent={
+              <Button
+                size="sm"
+                isIconOnly
+                variant="light"
+                radius="lg"
+                onPress={() =>
+                  setInputType((prev) =>
+                    prev === "text" ? "password" : "text"
+                  )
+                }
+              >
+                <FaEye />
+              </Button>
+            }
+            
           />
           <Input
             placeholder="enter the password again"
@@ -132,6 +152,23 @@ const Register = () => {
                 errorMessages={validationErrors["confirmePassword"]}
               />
             }
+            type={inputType}
+            endContent={
+              <Button
+                size="sm"
+                isIconOnly
+                variant="light"
+                radius="lg"
+                onPress={() =>
+                  setInputType((prev) =>
+                    prev === "text" ? "password" : "text"
+                  )
+                }
+              >
+                <FaEye />
+              </Button>
+            }
+            
           />
           <Input
             placeholder="enter your real email"

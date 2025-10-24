@@ -14,10 +14,12 @@ import { LogInUser } from "../../redux/api/aut.api";
 import { checkIfIsValid, hasErrors, request } from "../../lib/utils";
 import InputErrorMessages from "../../components/InputErrorMessages";
 import ScreenLoading from "../../components/ScreenLoading";
+import { FaEye } from "react-icons/fa";
 
 const Login = () => {
   const dispatch = useDispatch<AppDispatchType>();
   const navigate = useNavigate();
+  const [inputType,setInputType]=useState("password")
   const [isLoading, setIsLoading] = useState(false);
   const [loadingFetch, setLoadingFetch] = useState(false);
   const [adminUsers, setAdminUsers] = useState<
@@ -217,6 +219,8 @@ const Login = () => {
                   errorMessages={validationErrors["password"]}
                 />
               }
+              type={inputType}
+              endContent={<Button size="sm" isIconOnly variant="light" radius="lg" onPress={()=>setInputType(prev => prev ==="text" ? "password" : "text")}><FaEye/></Button>}
             />
           </div>
           <div>
