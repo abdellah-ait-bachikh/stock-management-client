@@ -4,7 +4,12 @@ export interface AppInitialStateType {
   theme: "light" | "dark";
 }
 export interface AuthInitialStateType {
-
+  user: null | {
+    id:string,
+    userName:string 
+    role:string,
+    email:string
+  }
 }
 
 // validation errors type
@@ -14,6 +19,10 @@ export interface ValidationRegisterUserErrorsType {
   confirmePassword: null | string[];
   email: null | string[];
 }
+export interface ValidationLogInUserErrorsType {
+  userName: null | string[];
+  password: null | string[];
+}
 
 // form types
 export interface RegisterUserType {
@@ -22,6 +31,12 @@ export interface RegisterUserType {
   confirmePassword: string;
   email: string;
 }
+export interface LogInUserType {
+  userName: string;
+    password: string;
+
+}
 
 //form Fields types
 export type RegisterUserFieldsType = keyof RegisterUserType;
+export type LogInUserFieldsType = keyof LogInUserType;

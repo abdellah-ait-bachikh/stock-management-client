@@ -5,10 +5,32 @@ import {
   CardFooter,
   CardHeader,
 } from "@heroui/react";
+import { useState } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { logOutUser } from "../redux/api/aut.api";
+import type { AppDispatchType } from "../redux/store";
+import LogOutModale from "./LogOutModale";
 
 export const UserCardDetails = () => {
-  return (
+   const dispatch = useDispatch<AppDispatchType>();
+
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Functions to open/close modal
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const handleConfirmLogout = async () => {
+    try {
+      await dispatch(logOutUser(closeModal));
+    } catch (err: any) {
+      console.error("Logout error:", err);
+      closeModal();
+    }
+  };
+  return (<>
     <Card className="max-w-[320px] border-none bg-transparent" shadow="none">
       <CardHeader className="justify-between gap-3">
         <div className="flex gap-3">
@@ -27,7 +49,7 @@ export const UserCardDetails = () => {
           radius="full"
           size="sm"
           variant={"solid"}
-          onPress={() => {}}
+          onPress={openModal}
         >
           Logout
         </Button>
@@ -50,5 +72,9 @@ export const UserCardDetails = () => {
         </div>
       </CardFooter>
     </Card>
+    {isModalOpen && (
+        <LogOutModale closeModal={closeModal} handleConfirmLogout={handleConfirmLogout}  />
+      )}
+    </>
   );
 };

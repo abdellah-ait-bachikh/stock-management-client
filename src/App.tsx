@@ -4,9 +4,23 @@ import Home from "./pages/home/Home";
 import AuthLayout from "./layouts/AuthLayout";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import { user } from "./lib/const";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatchType, RootStateType } from "./redux/store";
+import { useEffect, useState } from "react";
+import { getCurrectUSer } from "./redux/api/aut.api";
+import ScreenLoading from "./components/ScreenLoading";
 
 const App = () => {
+  const { user } = useSelector((state: RootStateType) => state.auth);
+  const dispatch = useDispatch<AppDispatchType>();
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    dispatch(getCurrectUSer(setLoading));
+  }, []);
+  console.log(user);
+  if (loading) {
+    return <ScreenLoading/>;
+  }
   return (
     <Routes>
       {user ? (
@@ -26,7 +40,7 @@ const App = () => {
         </>
       ) : (
         <Route path="/" element={<AuthLayout />}>
-          <Route index element={<Navigate to="/auth/register" />} />
+          <Route index element={<Navigate to="/auth/login" />} />
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/register" element={<Register />} />
           <Route path="/*" element={<h1>note found</h1>} />

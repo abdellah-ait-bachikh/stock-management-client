@@ -1,6 +1,6 @@
 import { Button, cn } from "@heroui/react";
 import { useSelector, useDispatch } from "react-redux";
-import type { RootStateType } from "../redux/store";
+import type { AppDispatchType, RootStateType } from "../redux/store";
 import { appActions } from "../redux/slices/appSLice";
 import { NavLink } from "react-router-dom";
 import { navlinks } from "../lib/const";
@@ -9,22 +9,40 @@ import type { Variants } from "framer-motion";
 import { TbMenuDeep } from "react-icons/tb";
 import { CgClose } from "react-icons/cg";
 import { FiLogOut } from "react-icons/fi";
+import { useState } from "react";
+import { logOutUser } from "../redux/api/aut.api";
+import LogOutModale from "./LogOutModale";
 
 const Sidebar = () => {
   const { isAsideOpen } = useSelector((state: RootStateType) => state.app);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatchType>();
 
-  const handleToggle = () => {
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Functions to open/close modal
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const handleConfirmLogout = async () => {
+    try {
+      await dispatch(logOutUser(closeModal));
+    } catch (err: any) {
+      console.error("Logout error:", err);
+      closeModal();
+    }
+  };
+  const handleToggleSidebar = () => {
     dispatch(appActions.setAsideOpen(!isAsideOpen));
   };
 
-  const handleClose = () => {
+  const handleCloseSidebar = () => {
     dispatch(appActions.setAsideOpen(false));
   };
 
   const handleLinkClick = () => {
     if (window.innerWidth < 1024) {
-      handleClose();
+      handleCloseSidebar();
     }
   };
 
@@ -93,7 +111,7 @@ const Sidebar = () => {
                     isIconOnly
                     variant="light"
                     color="default"
-                    onPress={handleClose}
+                    onPress={handleCloseSidebar}
                     radius="lg"
                     size="lg"
                   >
@@ -103,7 +121,7 @@ const Sidebar = () => {
               </>
             ) : (
               <Button
-                onPress={handleToggle}
+                onPress={handleToggleSidebar}
                 isIconOnly
                 variant="light"
                 color="default"
@@ -168,10 +186,10 @@ const Sidebar = () => {
                 className={cn(
                   "flex items-center cursor-pointer w-full justify-start px-3 py-2.5 rounded-xl hover:md:rounded-3xl hover:bg-danger-100 text-danger-500 dark:hover:bg-neutral-800 transition-all duration-300 group"
                 )}
-                onClick={handleLinkClick}
+                onClick={openModal}
               >
                 <span className="text-xl shrink-0">
-                  <FiLogOut   size={23} />
+                  <FiLogOut size={23} />
                 </span>
                 <motion.span
                   className="ml-3 font-bold text-lg flex-1 whitespace-nowrap text-start"
@@ -186,6 +204,13 @@ const Sidebar = () => {
           </motion.ul>
         </div>
       </aside>
+      {/* Custom Logout Modal */}
+      {isModalOpen && (
+        <LogOutModale
+          closeModal={closeModal}
+          handleConfirmLogout={handleConfirmLogout}
+        />
+      )}
     </>
   );
 };

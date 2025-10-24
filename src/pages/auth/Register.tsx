@@ -10,8 +10,8 @@ import { validateRegisterUser } from "../../lib/validation/auth";
 import { checkIfIsValid, hasErrors } from "../../lib/utils";
 import InputErrorMessages from "../../components/InputErrorMessages";
 import { registerUser } from "../../redux/api/aut.api";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatchType, RootStateType } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import type { AppDispatchType } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -30,7 +30,7 @@ const Register = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch<AppDispatchType>();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handelChange = (field: RegisterUserFieldsType, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     handelValidation(field, value);
@@ -49,7 +49,6 @@ const Register = () => {
 
   const handelSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
     dispatch(
       registerUser(
         formData,
@@ -59,7 +58,7 @@ const Register = () => {
         (validationError: ValidationRegisterUserErrorsType) => {
           setValidationErrors(validationError);
         },
-        ()=>navigate('/auth/login')
+        () => navigate("/auth/login")
       )
     );
   };
@@ -164,7 +163,6 @@ const Register = () => {
               !formData.userName ||
               !formData.password ||
               !formData.confirmePassword ||
-              !formData.userName ||
               hasErrors(validationErrors)
             }
           >

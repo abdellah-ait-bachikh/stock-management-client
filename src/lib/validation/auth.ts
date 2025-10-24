@@ -1,4 +1,4 @@
-import type { RegisterUserType } from "../types";
+import type { LogInUserType, RegisterUserType } from "../types";
 import z from "zod";
 export const validateRegisterUser = ({
   userName,
@@ -56,3 +56,47 @@ export const validateRegisterUser = ({
   }
   return { errors: null, data: result.data };
 };
+export const validateLogInUser = ({
+  userName,
+  password,
+
+}: LogInUserType) => {
+  const userSchema = z
+    .object({
+      userName: z
+        .string({ message: "User name must be a string" })
+        .trim()
+        .min(3, { message: "Username must be at least 3 characters long." })
+        .max(100, { message: "Username must be less than 50 characters long." })
+        .regex(/^[a-zA-Z0-9_\s\u0600-\u06FF\u00C0-\u017F]*$/, {
+          message:
+            "Username can only contain alphanumeric characters and underscores.",
+        })
+        .nonempty({ message: "User name is required" }),
+      password: z
+        .string({ message: "Password must be a string." })
+        .min(8, { message: "Password must be at least 8 characters long." })
+        .nonempty({ message: "Password is required" }),
+   
+    })
+    
+
+  const result = userSchema.safeParse({
+    userName,
+    password,
+
+  });
+  if (!result.success) {
+    const errors = result.error.flatten().fieldErrors;
+    return {
+      errors: {
+        userName: errors.userName || null,
+        password: errors.password || null,
+      
+      },
+    };
+  }
+  return { errors: null, data: result.data };
+};
+
+
