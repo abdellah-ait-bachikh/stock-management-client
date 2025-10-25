@@ -46,3 +46,23 @@ export function replaceEmptyStringsWithUndefined<T extends Record<string, any>>(
 }
 
 export const isAdmin =(role: string)=>role==="admin"
+
+export const formatCount = (count: number): string => {
+  if (count < 1000) return count.toString(); // 0–999
+
+  if (count < 1_000_000) {
+    // 1,000–999,999 → "1.2K"
+    return (count / 1000).toFixed(count % 1000 < 100 ? 1 : 0) + " K";
+  }
+
+  if (count < 1_000_000_000) {
+    // 1,000,000–999,999,999 → "1.2M"
+    return (count / 1_000_000).toFixed(count % 1_000_000 < 100_000 ? 1 : 0) + " M";
+  }
+
+  // ≥ 1 billion → "1.2B"
+  return (count / 1_000_000_000).toFixed(count % 1_000_000_000 < 100_000_000 ? 1 : 0) + " B";
+};
+export const formatNumber = (count: number): string => {
+  return count.toLocaleString("en-US");
+};

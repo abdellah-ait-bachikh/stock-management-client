@@ -1,10 +1,18 @@
-import { Avatar, Button, Card, CardFooter, CardHeader } from "@heroui/react";
+import {
+  Avatar,
+  Button,
+  Card,
+  CardFooter,
+  CardHeader,
+  Tooltip,
+} from "@heroui/react";
 import { useState } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { logOutUser } from "../redux/api/aut.api";
 import type { AppDispatchType } from "../redux/store";
 import LogOutModale from "./LogOutModale";
+import { formatCount, formatNumber } from "../lib/utils";
 
 export const UserCardDetails = ({
   user,
@@ -14,13 +22,15 @@ export const UserCardDetails = ({
     userName: string;
     role: string;
     email: string;
+    _count: {
+      exports: number;
+      imports: number;
+    };
   };
 }) => {
   const dispatch = useDispatch<AppDispatchType>();
 
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -35,7 +45,7 @@ export const UserCardDetails = ({
   };
   return (
     <>
-      <Card className="max-w-[320px] border-none bg-transparent" shadow="none">
+      <Card className="w-[320px] border-none bg-transparent" shadow="none">
         <CardHeader className="justify-between gap-3">
           <div className="flex gap-3">
             <Avatar isBordered radius="full" size="md" />
@@ -64,14 +74,33 @@ export const UserCardDetails = ({
             <div className="font-semibold text-default-600 text-small">
               <FaArrowUp />
             </div>
-            <p className="font-semibold text-default-600 text-small">4</p>
+
+            <Tooltip
+              content={formatNumber(user._count.exports + 65546)}
+              color="foreground"
+              showArrow
+              
+            >
+              <p className="font-semibold text-default-600 text-small">
+                {formatCount(user._count.exports + 65546)}
+              </p>
+            </Tooltip>
             <p className=" text-default-500 text-small">Exports</p>
           </div>
           <div className="flex gap-1 items-center">
             <div className="font-semibold text-default-600 text-small">
               <FaArrowDown />
             </div>
-            <p className="font-semibold text-default-600 text-small">97.1K</p>
+            <Tooltip
+              content={formatNumber(user._count.imports)}
+              color="foreground"
+              showArrow
+              
+            >
+              <p className="font-semibold text-default-600 text-small">
+                {formatCount(user._count.imports)}
+              </p>
+            </Tooltip>
             <p className="text-default-500 text-small">Imports</p>
           </div>
         </CardFooter>

@@ -9,6 +9,10 @@ export interface AuthInitialStateType {
     userName:string 
     role:string,
     email:string
+     _count: {
+        exports: number;
+        imports: number;
+    };
   }
    userId:  null | string,
 }
