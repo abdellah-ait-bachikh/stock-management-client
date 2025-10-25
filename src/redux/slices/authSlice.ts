@@ -1,26 +1,30 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { AuthInitialStateType } from "../../lib/types";
-import { loadUser } from "../../lib/tauriStore";
+import { loadUserId } from "../../lib/tauriStore";
 
-// const storedUser = localStorage.getItem("currentUser");
 const initialState: AuthInitialStateType = {
-  user:  null,
-  // user: storedUser ? JSON.parse(storedUser) : null,
+  userId: null,
+  user: null,
 };
+
 const authSlice = createSlice({
   name: "auth",
-  initialState: initialState,
+  initialState,
   reducers: {
     setLoginUser(state, action: PayloadAction<AuthInitialStateType["user"]>) {
       state.user = action.payload;
+    },
+    setLoginUserId(state, action: PayloadAction<AuthInitialStateType["userId"]>) {
+      state.userId = action.payload;
     },
   },
 });
 
 export const authReducer = authSlice.reducer;
 export const authActions = authSlice.actions;
-// Async initializer for the user
+
+// Initialize from storage
 export const initUserFromStore = () => async (dispatch: any) => {
-  const user = await loadUser();
-  if (user) dispatch(authActions.setLoginUser(user));
+  const userId = await loadUserId(); // load userId only
+  if (userId) dispatch(authActions.setLoginUserId(userId));
 };

@@ -1,20 +1,12 @@
-import {
-  Avatar,
-  Badge,
-  Button,
-  cn,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@heroui/react";
+import { Button, cn } from "@heroui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { appActions } from "../redux/slices/appSLice";
 
 import { TbMenuDeep } from "react-icons/tb";
 import type { RootStateType } from "../redux/store";
 import ToggleTheme from "./ToggleTheme";
-import { UserCardDetails } from "./UserCardDetails";
-import { MdOutlineAdminPanelSettings } from "react-icons/md";
+
+import ProfileAvatarUser from "./ProfileAvatarUser";
 
 const Header = () => {
   const { isAsideOpen } = useSelector((state: RootStateType) => state.app);
@@ -55,28 +47,7 @@ const Header = () => {
       <div className="flex items-center space-x-4">
         <ToggleTheme />
 
-        <Popover showArrow offset={23} placement="bottom-end">
-          <PopoverTrigger>
-            <div>
-              <Badge
-                isOneChar
-                shape="circle"
-                color="success"
-                placement="bottom-left"
-                size="lg"
-                content={
-                  // <BsPersonExclamation />
-                  <MdOutlineAdminPanelSettings color="white" />
-                }
-              >
-                <Avatar className="cursor-pointer" />
-              </Badge>
-            </div>
-          </PopoverTrigger>
-          <PopoverContent className="p-1">
-            <UserCardDetails />
-          </PopoverContent>
-        </Popover>
+        <ProfileAvatarUser />
       </div>
     </header>
   );

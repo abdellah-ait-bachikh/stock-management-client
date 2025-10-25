@@ -8,7 +8,7 @@ import type {
 import { replaceEmptyStringsWithUndefined, request } from "../../lib/utils";
 import type { AppDispatchType } from "../store";
 import { authActions } from "../slices/authSlice";
-import { removeUser , saveUser } from "../../lib/tauriStore";
+import { removeUser, saveUser } from "../../lib/tauriStore";
 
 export const registerUser =
   (
@@ -90,19 +90,33 @@ export const LogInUser =
     try {
       const res = await request.post(`/api/auth/login`, formData);
       if (res.status === 201) {
-       
-        dispatch(authActions.setLoginUser(res.data.user));
-        // localStorage.setItem("currentUser", JSON.stringify(res.data.user)); 
-         await saveUser(res.data.user);
-         addToast({
+        const { userId, message } = res.data;
+
+        dispatch(authActions.setLoginUserId(userId));
+        await saveUser(userId); // only save userId
+
+        addToast({
           title: "Login Successful",
-          description: res.data.message,
+          description: message,
           color: "success",
         });
-        if (cb) {
-          cb();
-        }
+
+        if (cb) cb();
       }
+      // if (res.status === 201) {
+
+      //   dispatch(authActions.setLoginUserId(res.data.userId));
+      //   // localStorage.setItem("currentUser", JSON.stringify(res.data.user));
+      //    await saveUser(res.data.userId);
+      //    addToast({
+      //     title: "Login Successful",
+      //     description: res.data.message,
+      //     color: "success",
+      //   });
+      //   if (cb) {
+      //     cb();
+      //   }
+      // }
     } catch (error: any) {
       if (error.response) {
         const status = error.response.status;
@@ -145,18 +159,17 @@ export const LogInUser =
 export const getCurrectUSer =
   (setLoading: (value: boolean) => void) =>
   async (dispatch: AppDispatchType) => {
-    setLoading(true);
-
     try {
       const res = await request.get("/api/auth/users/me", {
         withCredentials: true,
       });
 
       if (res.status === 200) {
-        dispatch(authActions.setLoginUser(res.data.user));
-        localStorage.setItem("currentUser", JSON.stringify(res.data.user));
+        dispatch(authActions.setLoginUser(res.data.user)); // full user object
       }
     } catch (error: any) {
+      dispatch(authActions.setLoginUser(null));
+
       if (!error.response) {
         addToast({
           title: "Network Error",
@@ -186,23 +199,7 @@ export const logOutUser =
   (setModaleOpen: (value: boolean) => void) =>
   async (dispatch: AppDispatchType) => {
     try {
-      // Attempt to call backend logout
       await request.post("/api/auth/logout", {}, { withCredentials: true });
-
-      // Clear user in Redux
-      dispatch(authActions.setLoginUser(null));
-
-      // Remove from Tauri store (important!)
-      await removeUser ();
-
-      // If you were using localStorage anywhere, clear it too:
-      localStorage.removeItem("currentUser");
-
-      addToast({
-        title: "Logged Out",
-        description: "You have been successfully logged out.",
-        color: "primary",
-      });
     } catch (error: any) {
       if (!error.response) {
         // Network error
@@ -220,14 +217,24 @@ export const logOutUser =
         });
 
         // Still clear local user in case server-side session is invalid
+        dispatch(authActions.setLoginUserId(null));
         dispatch(authActions.setLoginUser(null));
-        await removeUser ();
+        await removeUser();
         localStorage.removeItem("currentUser");
       }
 
       console.error("Logout error:", error);
     } finally {
+      dispatch(authActions.setLoginUser(null));
+      dispatch(authActions.setLoginUserId(null));
+      await removeUser();
+      localStorage.removeItem("userId");
       setModaleOpen(false);
+
+      addToast({
+        title: "Logged Out",
+        description: "You have been successfully logged out.",
+        color: "primary",
+      });
     }
   };
-

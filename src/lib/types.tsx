@@ -10,6 +10,7 @@ export interface AuthInitialStateType {
     role:string,
     email:string
   }
+   userId:  null | string,
 }
 
 // validation errors type

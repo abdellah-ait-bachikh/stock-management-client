@@ -4,36 +4,31 @@ import Home from "./pages/home/Home";
 import AuthLayout from "./layouts/AuthLayout";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatchType, RootStateType } from "./redux/store";
-import { useEffect, useState } from "react";
-// import { getCurrectUSer } from "./redux/api/aut.api";
-import ScreenLoading from "./components/ScreenLoading";
-import { initUserFromStore } from "./redux/slices/authSlice";
+import { useSelector } from "react-redux";
+import type { RootStateType } from "./redux/store";
 
 const App = () => {
-  const { user } = useSelector((state: RootStateType) => state.auth);
-  const dispatch = useDispatch<AppDispatchType>();
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-   const init = async () => {
-    // 1️⃣ Load user from Tauri store first
-    await dispatch(initUserFromStore()).then(()=>{setLoading(false)});
+  const { userId } = useSelector((state: RootStateType) => state.auth);
+  // const dispatch = useDispatch<AppDispatchType>();
+  // const [loading, setLoading] = useState(true);
+  // useEffect(() => {
+  //   const init = async () => {
+  //     await dispatch(initUserFromStore()).then(() => {
+  //       setLoading(false);
+  //     });
 
-    // 2️⃣ Then try to fetch latest user from backend
-    // await dispatch(getCurrectUSer(setLoading));
-  };
+  //   };
 
-  init();
-  }, []);
-console.log(user)
-  if (loading) {
-    return <ScreenLoading />;
-  }
+  //   init();
+  // }, []);
+  console.log(userId);
+  // if (loading) {
+  //   return <ScreenLoading />;
+  // }
   return (
     <>
       <Routes>
-        {user ? (
+        {userId ? (
           <>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />

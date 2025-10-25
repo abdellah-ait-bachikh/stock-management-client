@@ -44,3 +44,5 @@ export function replaceEmptyStringsWithUndefined<T extends Record<string, any>>(
 
   return result;
 }
+
+export const isAdmin =(role: string)=>role==="admin"

@@ -1,60 +1,47 @@
-// src/lib/universalStore.ts
-import { load } from '@tauri-apps/plugin-store';
+import { load } from "@tauri-apps/plugin-store";
 
-let isTauri: boolean;
+let isTauri = false;
 try {
-  // Tauri sets this global object
   isTauri = !!(window as any).__TAURI__;
 } catch {
   isTauri = false;
 }
 
-// Lazy-load Tauri store
 let storePromise: ReturnType<typeof load> | null = null;
 const getStore = async () => {
-  if (!storePromise) {
-    storePromise = load('store.json', { defaults: {}, autoSave: true });
-  }
+  if (!storePromise)
+    storePromise = load("store.json", { defaults: {}, autoSave: true });
   return storePromise;
 };
 
-export type StoredUser = {
-  id: string;
-  userName: string;
-  role: string;
-  email: string;
-};
+export type StoredUserId = string | null;
 
-// Save user
-export const saveUser = async (user: StoredUser) => {
+export const saveUser = async (userId: StoredUserId) => {
   if (isTauri) {
     const store = await getStore();
-    await store.set('user', user);
+    await store.set("userId", userId);
     await store.save();
   } else {
-    localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem("userId", JSON.stringify(userId));
   }
 };
 
-// Load user
-export const loadUser = async (): Promise<StoredUser | null> => {
+export const loadUserId = async (): Promise<StoredUserId | null> => {
   if (isTauri) {
     const store = await getStore();
-    const user = await store.get<StoredUser>('user');
-    return user ?? null;
+    return (await store.get<StoredUserId>("userId")) ?? null;
   } else {
-    const user = localStorage.getItem('currentUser');
-    return user ? JSON.parse(user) : null;
+    const id = localStorage.getItem("userId");
+    return id ? JSON.parse(id) : null;
   }
 };
 
-// Remove user
 export const removeUser = async () => {
   if (isTauri) {
     const store = await getStore();
-    await store.delete('user');
+    await store.delete("userId");
     await store.save();
   } else {
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem("userId");
   }
 };
