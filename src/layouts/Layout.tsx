@@ -14,7 +14,7 @@ const Layout = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-100 dark:bg-neutral-800">
+    <div className="flex h-screen overflow-hidden bg-gray-100 dark:bg-neutral-800 select-none">
       <Sidebar />
 
       <div className="flex-1 flex flex-col overflow-hidden">

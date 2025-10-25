@@ -6,7 +6,7 @@ import type {
   ValidationLogInUserErrorsType,
 } from "../../lib/types";
 import type { AppDispatchType } from "../../redux/store";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect, useState, type FormEvent } from "react";
 import { validateLogInUser } from "../../lib/validation/auth";
@@ -19,7 +19,7 @@ import { FaEye } from "react-icons/fa";
 const Login = () => {
   const dispatch = useDispatch<AppDispatchType>();
   const navigate = useNavigate();
-  const [inputType,setInputType]=useState("password")
+  const [inputType, setInputType] = useState("password");
   const [isLoading, setIsLoading] = useState(false);
   const [loadingFetch, setLoadingFetch] = useState(false);
   const [adminUsers, setAdminUsers] = useState<
@@ -91,7 +91,7 @@ const Login = () => {
     userName: "",
     password: "",
   });
-
+  console.log(adminUsers);
   const handelChange = (field: LogInUserFieldsType, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     handelValidation(field, value);
@@ -129,7 +129,7 @@ const Login = () => {
   }
   return (
     <>
-      <div className="w-screen h-screen dark:bg-neutral-800 bg-gray-100 flex items-center justify-center">
+      <div className="w-screen h-screen dark:bg-neutral-800 bg-gray-100  flex items-center justify-center">
         <form
           onSubmit={handelSubmit}
           className="mx-5 md:mx-0 w-full md:w-[500px] bg-white dark:bg-neutral-900 rounded-4xl p-8 flex flex-col gap-5 border-3 border-neutral-200 dark:border-neutral-700"
@@ -220,14 +220,37 @@ const Login = () => {
                 />
               }
               type={inputType}
-              endContent={<Button size="sm" isIconOnly variant="light" radius="lg" onPress={()=>setInputType(prev => prev ==="text" ? "password" : "text")}><FaEye/></Button>}
+              endContent={
+                <Button
+                  size="sm"
+                  isIconOnly
+                  variant="light"
+                  radius="lg"
+                  onPress={() =>
+                    setInputType((prev) =>
+                      prev === "text" ? "password" : "text"
+                    )
+                  }
+                >
+                  <FaEye />
+                </Button>
+              }
             />
+          </div>
+          <div className="flex items-center justify-center">
+            <Link
+              to="/auth/forgetPassword"
+              className="text-primary-500 hover:underline"
+            >
+              forget Password
+            </Link>
           </div>
           <div>
             <Button
               fullWidth
-              color="success"
-              className="font-semibold  tracking-widest text-white"
+              color="primary"
+              variant="flat"
+              className="font-semibold flex-1 tracking-widest "
               type="submit"
               isLoading={isLoading}
               isDisabled={

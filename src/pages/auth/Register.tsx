@@ -12,7 +12,7 @@ import InputErrorMessages from "../../components/InputErrorMessages";
 import { registerUser } from "../../redux/api/aut.api";
 import { useDispatch } from "react-redux";
 import type { AppDispatchType } from "../../redux/store";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 
 const Register = () => {
@@ -66,7 +66,7 @@ const Register = () => {
     );
   };
   return (
-    <div className="w-screen h-screen dark:bg-neutral-800 bg-gray-100 flex items-center justify-center">
+    <div className="w-screen h-screen dark:bg-neutral-800 bg-gray-100  flex items-center justify-center">
       <form
         onSubmit={handelSubmit}
         className="mx-5 md:mx-0 w-full md:w-[500px] bg-white dark:bg-neutral-900 rounded-4xl p-8 flex flex-col gap-5 border-3 border-neutral-200 dark:border-neutral-700"
@@ -131,7 +131,6 @@ const Register = () => {
                 <FaEye />
               </Button>
             }
-            
           />
           <Input
             placeholder="enter the password again"
@@ -168,7 +167,6 @@ const Register = () => {
                 <FaEye />
               </Button>
             }
-            
           />
           <Input
             placeholder="enter your real email"
@@ -189,11 +187,19 @@ const Register = () => {
             }
           />
         </div>
+        <div className="flex items-center justify-center">
+          <Link
+            to="/auth/forgetPassword"
+            className="text-primary-500 hover:underline"
+          >
+            forget Password
+          </Link>
+        </div>
         <div>
           <Button
+            color="primary" variant="flat"
             fullWidth
-            color="success"
-            className="font-semibold  tracking-widest text-white"
+            className="font-semibold flex-1 tracking-widest "
             type="submit"
             isLoading={isLoading}
             isDisabled={

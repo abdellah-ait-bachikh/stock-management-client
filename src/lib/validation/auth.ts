@@ -100,3 +100,27 @@ export const validateLogInUser = ({
 };
 
 
+
+export const validateEmailUser = ({ email }: { email: string }) => {
+  const emailSchema = z.object({
+    email: z
+      .string({ message: "Email must be a string." })
+      .trim()
+      .nonempty({ message: "Email is required." })
+      .email({ message: "Email must be a valid email address." }),
+  });
+
+  const result = emailSchema.safeParse({ email });
+
+  if (!result.success) {
+    const errors = result.error.flatten().fieldErrors;
+    return {
+      error: {
+        email: errors.email || null,
+      },
+      data: null,
+    };
+  }
+
+  return { error: null, data: result.data };
+};

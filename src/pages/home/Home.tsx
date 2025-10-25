@@ -1,4 +1,3 @@
-
 const Home = () => {
   const handlePrint = () => {
     try {

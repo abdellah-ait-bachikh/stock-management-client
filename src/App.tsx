@@ -6,6 +6,7 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import { useSelector } from "react-redux";
 import type { RootStateType } from "./redux/store";
+import ForgetPassword from "./pages/auth/ForgetPassword";
 
 const App = () => {
   const { userId } = useSelector((state: RootStateType) => state.auth);
@@ -48,6 +49,7 @@ const App = () => {
             <Route index element={<Navigate to="/auth/login" />} />
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/register" element={<Register />} />
+            <Route path="/auth/forgetPassword" element={<ForgetPassword />} />
             <Route path="/*" element={<h1>note found</h1>} />
           </Route>
         )}

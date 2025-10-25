@@ -7,6 +7,7 @@ import type { RootStateType } from "../redux/store";
 import ToggleTheme from "./ToggleTheme";
 
 import ProfileAvatarUser from "./ProfileAvatarUser";
+import TextType from "./ui/TextType";
 
 const Header = () => {
   const { isAsideOpen } = useSelector((state: RootStateType) => state.app);
@@ -42,7 +43,14 @@ const Header = () => {
         >
           <TbMenuDeep size={23} />
         </Button>
-        <h2 className="text-2xl font-semibold ">Dashboard</h2>
+        <TextType
+          className="text-2xl font-semibold underline"
+          text={["Dashboard", "Stock Management", "Easy Peasy"]}
+          typingSpeed={75}
+          pauseDuration={1900}
+          showCursor={true}
+          cursorCharacter="|"
+        />
       </div>
       <div className="flex items-center space-x-4">
         <ToggleTheme />

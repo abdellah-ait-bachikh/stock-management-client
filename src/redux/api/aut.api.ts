@@ -238,3 +238,74 @@ export const logOutUser =
       });
     }
   };
+
+
+  
+export const forgotPassword =
+  (
+    formData: { email: string },
+    setLoading: (value: boolean) => void,
+    setValidationErrors: (validationError: ValidationRegisterUserErrorsType) => void,
+    cb?: () => void
+  ) =>
+  async (_dispatch: AppDispatchType) => {
+    setLoading(true);
+
+    try {
+      const res = await request.post(
+        "/api/auth/users/forgot-password",
+        replaceEmptyStringsWithUndefined(formData)
+      );
+
+      if (res.status === 200) {
+        addToast({
+          title: "Email Sent",
+          description: res.data.message,
+          color: "success",
+        });
+        if (cb) cb();
+      }
+    } catch (error: any) {
+      if (error.response) {
+        const status = error.response.status;
+
+        if (status === 400) {
+          setValidationErrors(error.response.data.errors);
+          addToast({
+            title: "Validation Error",
+            description: error.response.data.message,
+            color: "danger",
+          });
+        } else if (status === 404) {
+          // User not found
+          setValidationErrors(error.response.data.errors);
+          addToast({
+            title: "Not Found",
+            description: error.response.data.message,
+            color: "danger",
+          });
+        } else if (status === 500) {
+          addToast({
+            title: "Server Error",
+            description: error.response.data.message || "Something went wrong on the server.",
+            color: "danger",
+          });
+        } else {
+          addToast({
+            title: "Error",
+            description: error.response.data.message || "An unexpected error occurred.",
+            color: "danger",
+          });
+        }
+      } else {
+        addToast({
+          title: "Network Error",
+          description: error.message,
+          color: "danger",
+        });
+      }
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
