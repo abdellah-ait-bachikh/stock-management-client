@@ -8,7 +8,7 @@ import type {
 import { replaceEmptyStringsWithUndefined, request } from "../../lib/utils";
 import type { AppDispatchType } from "../store";
 import { authActions } from "../slices/authSlice";
-import { removeUser, saveUser } from "../../lib/tauriStore";
+import { removeAuthData, saveAuthData } from "../../lib/tauriStore";
 
 export const registerUser =
   (
@@ -89,11 +89,12 @@ export const LogInUser =
     setLoading(true);
     try {
       const res = await request.post(`/api/auth/login`, formData);
+
       if (res.status === 201) {
-        const { userId, message } = res.data;
+        const { userId, token, message } = res.data;
 
         dispatch(authActions.setLoginUserId(userId));
-        await saveUser(userId); // only save userId
+        await saveAuthData({ userId, token });
 
         addToast({
           title: "Login Successful",
@@ -103,20 +104,6 @@ export const LogInUser =
 
         if (cb) cb();
       }
-      // if (res.status === 201) {
-
-      //   dispatch(authActions.setLoginUserId(res.data.userId));
-      //   // localStorage.setItem("currentUser", JSON.stringify(res.data.user));
-      //    await saveUser(res.data.userId);
-      //    addToast({
-      //     title: "Login Successful",
-      //     description: res.data.message,
-      //     color: "success",
-      //   });
-      //   if (cb) {
-      //     cb();
-      //   }
-      // }
     } catch (error: any) {
       if (error.response) {
         const status = error.response.status;
@@ -155,7 +142,6 @@ export const LogInUser =
       setLoading(false);
     }
   };
-
 export const getCurrectUSer =
   (setLoading: (value: boolean) => void) =>
   async (dispatch: AppDispatchType) => {
@@ -209,26 +195,19 @@ export const logOutUser =
           color: "danger",
         });
       } else {
-        // Server returned an error
         addToast({
           title: "Logout Error",
           description: error.response.data?.message || "Failed to log out.",
           color: "danger",
         });
-
-        // Still clear local user in case server-side session is invalid
-        dispatch(authActions.setLoginUserId(null));
-        dispatch(authActions.setLoginUser(null));
-        await removeUser();
-        localStorage.removeItem("currentUser");
       }
 
       console.error("Logout error:", error);
     } finally {
       dispatch(authActions.setLoginUser(null));
       dispatch(authActions.setLoginUserId(null));
-      await removeUser();
-      localStorage.removeItem("userId");
+      await removeAuthData(); // This removes both userId AND token
+      localStorage.removeItem("currentUser");
       setModaleOpen(false);
 
       addToast({
@@ -239,13 +218,13 @@ export const logOutUser =
     }
   };
 
-
-  
 export const forgotPassword =
   (
     formData: { email: string },
     setLoading: (value: boolean) => void,
-    setValidationErrors: (validationError: ValidationRegisterUserErrorsType) => void,
+    setValidationErrors: (
+      validationError: ValidationRegisterUserErrorsType
+    ) => void,
     cb?: () => void
   ) =>
   async (_dispatch: AppDispatchType) => {
@@ -277,7 +256,6 @@ export const forgotPassword =
             color: "danger",
           });
         } else if (status === 404) {
-          // User not found
           setValidationErrors(error.response.data.errors);
           addToast({
             title: "Not Found",
@@ -287,13 +265,16 @@ export const forgotPassword =
         } else if (status === 500) {
           addToast({
             title: "Server Error",
-            description: error.response.data.message || "Something went wrong on the server.",
+            description:
+              error.response.data.message ||
+              "Something went wrong on the server.",
             color: "danger",
           });
         } else {
           addToast({
             title: "Error",
-            description: error.response.data.message || "An unexpected error occurred.",
+            description:
+              error.response.data.message || "An unexpected error occurred.",
             color: "danger",
           });
         }

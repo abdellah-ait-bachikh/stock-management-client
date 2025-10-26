@@ -10,22 +10,7 @@ import ForgetPassword from "./pages/auth/ForgetPassword";
 
 const App = () => {
   const { userId } = useSelector((state: RootStateType) => state.auth);
-  // const dispatch = useDispatch<AppDispatchType>();
-  // const [loading, setLoading] = useState(true);
-  // useEffect(() => {
-  //   const init = async () => {
-  //     await dispatch(initUserFromStore()).then(() => {
-  //       setLoading(false);
-  //     });
 
-  //   };
-
-  //   init();
-  // }, []);
-  console.log(userId);
-  // if (loading) {
-  //   return <ScreenLoading />;
-  // }
   return (
     <>
       <Routes>

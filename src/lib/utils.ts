@@ -1,10 +1,43 @@
 import axios from "axios";
+import { loadToken } from "./tauriStore";
 
 
 export const request = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL, withCredentials: true,
+  baseURL: import.meta.env.VITE_API_BASE_URL, withCredentials: true,  headers: {
+    'Content-Type': 'application/json',
+  },
 });
+request.interceptors.request.use(
+  async (config) => {
+    // Try to get token from store first
+    const token = await loadToken();
+    
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
+// Response interceptor to handle auth errors
+request.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response?.status === 401) {
+      // Token expired or invalid
+      console.log('Authentication failed, clearing token...');
+      // You can dispatch a logout action here if needed
+      delete request.defaults.headers.common['Authorization'];
+    }
+    return Promise.reject(error);
+  }
+);
 export const checkIfIsValid = <T extends object>(
   errors: T | null | undefined,
   field: keyof T | string

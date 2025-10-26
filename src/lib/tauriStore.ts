@@ -14,34 +14,77 @@ const getStore = async () => {
   return storePromise;
 };
 
-export type StoredUserId = string | null;
+export type AuthData = {
+  userId: string | null;
+  token: string | null;
+};
 
-export const saveUser = async (userId: StoredUserId) => {
+// Save both user ID and token in one object
+export const saveAuthData = async (authData: AuthData) => {
   if (isTauri) {
     const store = await getStore();
-    await store.set("userId", userId);
+    await store.set("authData", authData);
     await store.save();
   } else {
-    localStorage.setItem("userId", JSON.stringify(userId));
+    localStorage.setItem("authData", JSON.stringify(authData));
   }
 };
 
-export const loadUserId = async (): Promise<StoredUserId | null> => {
+// Load both user ID and token from storage
+export const loadAuthData = async (): Promise<AuthData> => {
   if (isTauri) {
     const store = await getStore();
-    return (await store.get<StoredUserId>("userId")) ?? null;
+    return (await store.get<AuthData>("authData")) ?? { userId: null, token: null };
   } else {
-    const id = localStorage.getItem("userId");
-    return id ? JSON.parse(id) : null;
+    const authData = localStorage.getItem("authData");
+    return authData ? JSON.parse(authData) : { userId: null, token: null };
   }
 };
 
-export const removeUser = async () => {
+// Remove both user ID and token from storage
+export const removeAuthData = async () => {
   if (isTauri) {
     const store = await getStore();
-    await store.delete("userId");
+    await store.delete("authData");
     await store.save();
   } else {
-    localStorage.removeItem("userId");
+    localStorage.removeItem("authData");
   }
+};
+
+// Individual getters for convenience
+export const loadUserId = async (): Promise<string | null> => {
+  const authData = await loadAuthData();
+  return authData.userId;
+};
+
+export const loadToken = async (): Promise<string | null> => {
+  const authData = await loadAuthData();
+  return authData.token;
+};
+
+// Individual setters for convenience
+export const saveUser = async (userId: string | null) => {
+  const currentAuthData = await loadAuthData();
+  await saveAuthData({
+    ...currentAuthData,
+    userId
+  });
+};
+
+export const saveToken = async (token: string | null) => {
+  const currentAuthData = await loadAuthData();
+  await saveAuthData({
+    ...currentAuthData,
+    token
+  });
+};
+
+// Update both at once
+export const updateAuthData = async (updates: Partial<AuthData>) => {
+  const currentAuthData = await loadAuthData();
+  await saveAuthData({
+    ...currentAuthData,
+    ...updates
+  });
 };

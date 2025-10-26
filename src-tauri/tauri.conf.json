@@ -18,38 +18,13 @@
         "resizable": true,
         "fullscreen": false,
         "maximized": true
+
       }
     ],
     "security": {
       "dangerousDisableAssetCspModification": true,
-      "csp": {
-        "default-src": "'self' customprotocol: asset: https: http:",
-        "connect-src": "'self' ipc: http://ipc.localhost http://localhost:3000 https: http: ws: wss: *",
-        "font-src": [
-          "'self'",
-          "https://fonts.gstatic.com",
-          "https:",
-          "http:",
-          "data:"
-        ],
-        "img-src": "'self' asset: http://asset.localhost blob: data: https: http:",
-        "style-src": "'unsafe-inline' 'self' https://fonts.googleapis.com https: http:",
-        "script-src": "'self' 'unsafe-eval' 'unsafe-inline'"
-      },
-      "devCsp": {
-        "default-src": "'self' customprotocol: asset: https: http:",
-        "connect-src": "'self' ipc: http://ipc.localhost http://localhost:3000 https: http: ws: wss: *",
-        "font-src": [
-          "'self'",
-          "https://fonts.gstatic.com",
-          "https:",
-          "http:",
-          "data:"
-        ],
-        "img-src": "'self' asset: http://asset.localhost blob: data: https: http:",
-        "style-src": "'unsafe-inline' 'self' https://fonts.googleapis.com https: http:",
-        "script-src": "'self' 'unsafe-eval' 'unsafe-inline'"
-      }
+      "csp": null,
+      "devCsp": null
     }
   },
   "bundle": {
@@ -63,5 +38,5 @@
       "icons/icon.ico"
     ]
   },
-  "plugins": { "store": null  }
+  "plugins": { "store": null }
 }

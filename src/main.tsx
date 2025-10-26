@@ -7,15 +7,23 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store.ts";
 import { BrowserRouter } from "react-router-dom";
 import { authActions } from "./redux/slices/authSlice.ts";
-import { loadUserId } from "./lib/tauriStore.ts";
+import { loadAuthData, } from "./lib/tauriStore.ts";
+import { request } from "./lib/utils.ts";
 async function bootstrap() {
   try {
-    const userId = await loadUserId();
-    if (userId) {
-      store.dispatch(authActions.setLoginUserId(userId));
+    const authData = await loadAuthData();
+
+    if (authData.userId) {
+      store.dispatch(authActions.setLoginUserId(authData.userId));
+    }
+
+    if (authData.token) {
+      request.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${authData.token}`;
     }
   } catch (err) {
-    console.error("Failed to preload userId:", err);
+    console.error("Failed to preload auth data:", err);
   }
 
   createRoot(document.getElementById("root")!).render(
