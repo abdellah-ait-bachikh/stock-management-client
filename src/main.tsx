@@ -16,7 +16,6 @@ async function bootstrap() {
     if (authData.userId) {
       store.dispatch(authActions.setLoginUserId(authData.userId));
     }
-
     if (authData.token) {
       request.defaults.headers.common[
         "Authorization"

@@ -206,6 +206,7 @@ const Register = () => {
               !formData.userName ||
               !formData.password ||
               !formData.confirmePassword ||
+              !formData.email ||
               hasErrors(validationErrors)
             }
           >
