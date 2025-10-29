@@ -1,0 +1,107 @@
+[33mcommit 86c9af7e838c568e62e2e2f0b892358f37f0b824[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Mon Oct 27 10:37:11 2025 +0100
+
+    feat(dashboard): add metrics cards section
+
+[33mcommit 28632f203d8a174df85d37221c035f43e7036336[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Sun Oct 26 10:39:33 2025 +0100
+
+    fix email required in register page
+
+[33mcommit fa6629c126e9df510a716e5dcceb3ae0b699e876[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Sun Oct 26 10:24:58 2025 +0100
+
+    modify token store method&
+
+[33mcommit eb6f7e64898b4051f73bb8c1cabd1bacefd8883a[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Sat Oct 25 14:02:17 2025 +0100
+
+    tauri client ip
+
+[33mcommit e2fe391fb18551246fa8556d8af5b4a54c19e2fc[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Sat Oct 25 13:09:14 2025 +0100
+
+    forget pasword feat
+
+[33mcommit 1acc9dc68e238abd92b9e79e32f0692eab741cf6[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Sat Oct 25 11:48:29 2025 +0100
+
+    format count & number &
+
+[33mcommit ef958dfe8c1840f78d28b139c96a3548980d4165[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Sat Oct 25 11:25:19 2025 +0100
+
+    getcurrentuser & show user details card
+
+[33mcommit a3b7c3b93d9202085064452d549aaa4c89b4dab2[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Fri Oct 24 18:55:46 2025 +0100
+
+    locale storage check
+
+[33mcommit a1a5f7ed026afd77ed7463cf0b6a30d59a1f2e27[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Fri Oct 24 14:28:16 2025 +0100
+
+    fix locale storage user
+
+[33mcommit 3ff5588389e503c7949b2e9584ed81af0540bc00[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Fri Oct 24 12:24:32 2025 +0100
+
+    authentication feat
+
+[33mcommit f6de4437e6d39d7b8bc25ba513360bab50896fe0[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Thu Oct 23 11:51:40 2025 +0100
+
+    register user feat but not  full testing
+
+[33mcommit 430db84e0343da89b69652f79cfd21839281c964[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Wed Oct 22 12:03:59 2025 +0100
+
+    register page designe
+
+[33mcommit 582e84991d816e05a1f4997ed5ed29d410b3be77[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Wed Oct 22 11:57:13 2025 +0100
+
+    login page designe
+
+[33mcommit 45c884bb5e7b88e4639b7a290e3a4ec3d513a1b2[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Wed Oct 22 10:47:37 2025 +0100
+
+    finish -> header & sidebar & theme
+
+[33mcommit 2c7dd7778f4b7451c37cd438fd120cd1db94aa4a[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Tue Oct 21 17:10:10 2025 +0100
+
+    finish mobile aside
+
+[33mcommit 77a0455a5bf2787b04d40c41cb22cc54d0d4ba84[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Tue Oct 21 10:27:45 2025 +0100
+
+    src-tauri/src/lib.rs -> include binary node & server path
+
+[33mcommit 6dddd92ecf98956c250d13310de3ffba262b689f[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Mon Oct 20 19:58:00 2025 +0100
+
+    initilise aside state
+
+[33mcommit 49f25dae8b3858c678bc26ebbaabbb94c5390344[m
+Author: abdellah ait bachikh <abdo.jhon2023@gmail.com>
+Date:   Mon Oct 20 19:19:53 2025 +0100
+
+    create project & initilise ui librarys

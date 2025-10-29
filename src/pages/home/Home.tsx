@@ -1,29 +1,21 @@
 import { Select, SelectItem, Tooltip } from "@heroui/react";
 import { formatNumber } from "../../lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const years = ["2024", "2025"];
 const Home = () => {
   const [selectedYear, setSelectedYear] = useState(
     String(new Date().getFullYear())
   );
-  // const handlePrint = () => {
-  //   try {
-  //     const printWindow = window.open("", "", "width=600,height=400");
-  //     if (printWindow) {
-  //       printWindow.document.write("<h1>Hello World</h1>");
-  //       printWindow.document.close();
-  //       printWindow.print();
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  useEffect(() => {
+    //fetch
+  }, [selectedYear]);
   return (
     <section className="p-3 relative">
-      <div className="fixed top-[92px] right-0 z-1 w-fit">
+      <div className="fixed top-[92px] right-0 z-1 w-fit shadow-2xl">
         <Select
           variant="flat"
-          className="cursor-pointer w-28"
+          className="cursor-pointer w-28 "
+          classNames={{ trigger: "border-default border-2" }}
           label="Year"
           placeholder="Select a Year"
           selectedKeys={[selectedYear]}
